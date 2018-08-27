@@ -1,12 +1,22 @@
 console.log('before')
-const user = getUser(1)
-console.log('user: ', user) // can't return id because wait 2 sec for return
+getUser(1, (user) => {
+  getAfterUser(user.name, (after) => {
+    console.log('after user', after)
+    // callback hell
+  })
+})
 console.log('after')
 
-function getUser(id){
+function getUser(id, callback) {
   setTimeout(() => { // setTimeout if async func
     console.log('wait database 2 sec')
-    return { id: id, name: 'top' }
+    callback({ id: id, name: 'top' })
   }, 2000)
-  return 1
+}
+
+function getAfterUser(user, callback) {
+  setTimeout(() => { // setTimeout if async func
+    console.log('after call user', user)
+    callback(['after1', 'after2', 'after3'])
+  }, 2000)
 }
